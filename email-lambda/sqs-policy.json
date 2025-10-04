@@ -1,0 +1,14 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": { "Service": "s3.amazonaws.com" },
+      "Action": "sqs:SendMessage",
+      "Resource": "arn:aws:sqs:us-west-1:523919781340:s3-file-upload-queue",
+      "Condition": {
+        "ArnLike": { "aws:SourceArn": "arn:aws:s3:::edin-bucket-523919781340" }
+      }
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+com/example/controller/FileController.class
+com/example/config/AwsConfig.class
+com/example/lambda/S3EmailHandler.class
+com/example/DemoApplication.class

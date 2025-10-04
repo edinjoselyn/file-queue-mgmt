@@ -1,0 +1,21 @@
+[
+  {
+    "name": "${REPO_NAME}",
+    "image": "${ECR_URI}",
+    "portMappings": [
+      {
+        "containerPort": "${PORT}",
+        "protocol": "tcp"
+      }
+    ],
+    "essential": true,
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group": "${REPO_NAME}",
+        "awslogs-region": "${AWS_REGION}",
+        "awslogs-stream-prefix": "ecs"
+      }
+    }
+  }
+]
