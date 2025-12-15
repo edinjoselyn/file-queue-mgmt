@@ -1,5 +1,7 @@
 package com.example.controller;
 
+import com.example.exception.InvalidFileExtensionException;
+import io.micrometer.common.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -24,11 +26,13 @@ public class FileController {
     }
 
     @PostMapping("/upload")
-    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) throws InvalidFileExtensionException {
         String keyName = file.getOriginalFilename();
         logger.info("event=StartedFileUpload fileName={} bucketName={}", keyName, bucketName);
-
         try {
+            if (StringUtils.isBlank(keyName) || !keyName.contains(".pdf")) {
+                throw new InvalidFileExtensionException("Invalid File Extension");
+            }
             s3Client.putObject(
                     PutObjectRequest.builder()
                             .bucket(bucketName)
@@ -39,6 +43,9 @@ public class FileController {
             logger.info("event=CompletedFileUpload fileName={} bucketName={}", keyName, bucketName);
         } catch (IOException e) {
             logger.error("event=IOExceptionOccurred fileName={} bucketName={}", keyName, bucketName);
+            return ResponseEntity.status(500).body("Failed to read file");
+        } catch (InvalidFileExtensionException e) {
+            logger.error("event=InvalidFileExtensionException fileName={} bucketName={}", keyName, bucketName);
             return ResponseEntity.status(500).body("Failed to read file");
         } catch (Exception e) {
             logger.error("event=ExceptionOccurred fileName={} bucketName={}", keyName, bucketName);

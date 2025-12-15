@@ -8,10 +8,10 @@ import java.util.Map;
 
 @SpringBootApplication
 @RestController
-public class DemoApplication {
+public class FileUploadApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(DemoApplication.class, args);
+        SpringApplication.run(FileUploadApplication.class, args);
     }
 
     @GetMapping("/hello")

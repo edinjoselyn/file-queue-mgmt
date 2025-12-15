@@ -5,7 +5,7 @@ FROM amazoncorretto:21-alpine AS runtime
 WORKDIR /app
 
 # Copy JAR file (after Maven build)
-COPY target/demo-0.0.1-SNAPSHOT.jar app.jar
+COPY target/file-upload-0.0.1-SNAPSHOT.jar app.jar
 
 # Expose Spring Boot default port
 EXPOSE 8080
